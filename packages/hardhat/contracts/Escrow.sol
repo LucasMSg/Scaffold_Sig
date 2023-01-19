@@ -38,9 +38,7 @@ contract Escrow is ERC165, IERC721Holder, IEscrow, EIP712Upgradeable {
 
     bytes32 public constant ESCROW_TYPEHASH = keccak256("EscrowToken(address feature,uint256 timeMax,bytes32 tokenID)");
     bytes32 public constant ESCROW_TYPEHASH2 =
-        keccak256("EscrowToken(address feature)");
-    /* bytes32 public constant ESCROW_TYPEHASH2 =
-        keccak256("EscrowToken(address feature,bytes32 timeMax,bytes32 tokenID)"); */
+        keccak256("EscrowToken(address feature,bytes32 timeMax,bytes32 tokenID)");
     string public constant name = "Escrow Signature";
     string public constant version = "1.0";
 
@@ -192,8 +190,7 @@ contract Escrow is ERC165, IERC721Holder, IEscrow, EIP712Upgradeable {
         uint256[] calldata timesAvaliable
     ) internal view returns (bool) {
         bytes32 timesPack = keccak256(abi.encodePacked(timesAvaliable));
-        //bytes32 digest = _hashTypedDataV4(keccak256(abi.encode(ESCROW_TYPEHASH2 , msg.sender, timesPack,  tokenID)));
-        bytes32 digest = _hashTypedDataV4(keccak256(abi.encode(ESCROW_TYPEHASH2,msg.sender)));
+        bytes32 digest = _hashTypedDataV4(keccak256(abi.encode(ESCROW_TYPEHASH2 , msg.sender, timesPack,  tokenID)));
         address recoveredSigner = ECDSAUpgradeable.recover(digest, v, r, s);
         return recoveredSigner == originalOwner;
     }
